@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Content Radar">
+    <circle cx="32" cy="32" r="26" fill="none" stroke="#21759B" stroke-width="4"/>
+    <circle cx="32" cy="32" r="17" fill="none" stroke="#21759B" stroke-width="3" opacity="0.65"/>
+    <circle cx="32" cy="32" r="8" fill="none" stroke="#21759B" stroke-width="3" opacity="0.45"/>
+
+    <path d="M32 32 L50 18" stroke="#FF8700" stroke-width="4" stroke-linecap="round"/>
+    <circle cx="32" cy="32" r="3.5" fill="#FF8700"/>
+
+    <path d="M32 6 V12" stroke="#6A6E73" stroke-width="3" stroke-linecap="round"/>
+    <path d="M32 52 V58" stroke="#6A6E73" stroke-width="3" stroke-linecap="round"/>
+    <path d="M6 32 H12" stroke="#6A6E73" stroke-width="3" stroke-linecap="round"/>
+    <path d="M52 32 H58" stroke="#6A6E73" stroke-width="3" stroke-linecap="round"/>
+
+    <circle cx="47" cy="21" r="4" fill="#FF8700"/>
+</svg>

@@ -1,0 +1,31 @@
+<link rel="stylesheet" href="{f:uri.resource(path: 'Css/backend.css', extensionName: 'ContentRadar')}" />
+
+<div class="content-radar">
+    <h1>Content Radar</h1>
+
+    <div class="content-radar__actions">
+        <a href="?">Alle</a>
+        <a href="?filter=critical">Nur kritisch</a>
+        <a href="?sort=age_desc">Nach Alter</a>
+    </div>
+
+    <table>
+        <tr>
+            <th>Seite</th>
+            <th>Alter</th>
+            <th>Status</th>
+        </tr>
+
+        <f:for each="{pages}" as="page">
+            <tr>
+                <td>{page.title}</td>
+                <td>{page.age}</td>
+                <td>
+                <span class="content-radar__status status-{page.status}">
+                    {page.status}
+                </span>
+                </td>
+            </tr>
+        </f:for>
+    </table>
+</div>

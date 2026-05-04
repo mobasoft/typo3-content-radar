@@ -1,0 +1,19 @@
+{
+	"name": "mobasoft/typo3-content-radar",
+	"type": "typo3-cms-extension",
+	"description": "Simple content health checks for TYPO3",
+	"license": "MIT",
+	"require": {
+		"typo3/cms-core": "^13.0"
+	},
+	"autoload": {
+		"psr-4": {
+			"Mobasoft\\ContentRadar\\": "Classes/"
+		}
+	},
+	"extra": {
+		"typo3/cms": {
+			"extension-key": "content_radar"
+		}
+	}
+}

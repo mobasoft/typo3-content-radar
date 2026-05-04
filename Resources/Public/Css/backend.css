@@ -1,0 +1,54 @@
+body {
+    outline: 5px solid red !important;
+}
+
+.content-radar {
+    font-family: system-ui, sans-serif;
+}
+
+.content-radar table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.content-radar th,
+.content-radar td {
+    padding: 8px 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+.content-radar th {
+    background: #f5f5f5;
+}
+
+.content-radar__status {
+    padding: 3px 8px;
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-green {
+    background: #d1e7dd;
+    color: #0f5132;
+}
+
+.status-yellow {
+    background: #fff3cd;
+    color: #664d03;
+}
+
+.status-red {
+    background: #f8d7da;
+    color: #842029;
+}
+
+.content-radar__actions {
+    margin-bottom: 10px;
+}
+
+.content-radar__actions a {
+    margin-right: 10px;
+    text-decoration: none;
+}
