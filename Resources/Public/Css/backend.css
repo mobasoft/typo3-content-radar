@@ -99,3 +99,36 @@
 .score-low {
     color: red;
 }
+
+.score-bar {
+    width: 100px;
+    height: 8px;
+    background: #d0d7de;
+    border-radius: 4px;
+    overflow: hidden;
+    display: inline-block;
+    margin-right: 8px;
+    vertical-align: middle;
+}
+
+.score-bar__fill {
+    height: 100%;
+    transition: width 0.3s ease;
+}
+
+.score-bar__fill.score-high {
+    background: #0b63ce;
+}
+
+.score-bar__fill.score-medium {
+    background: #b26a00;
+}
+
+.score-bar__fill.score-low {
+    background: #b4232f;
+}
+
+.score-value {
+    font-size: 12px;
+    vertical-align: middle;
+}

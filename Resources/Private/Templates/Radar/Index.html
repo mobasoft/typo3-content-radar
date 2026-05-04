@@ -64,9 +64,13 @@
                         <f:if condition="{group.defaultPage.is_leaf}">⚠️</f:if>
                     </td>
                     <td>
-                        <span class="score score-{f:if(condition: group.defaultPage.score < 40, then: 'low',
-                            else: f:if(condition: group.defaultPage.score < 70, then: 'medium', else: 'high')
-                        )}">
+                        <div class="score-bar">
+                            <div class="score-bar__fill score-{f:if(condition: group.defaultPage.score < 40, then: 'low',
+                                else: f:if(condition: group.defaultPage.score < 70, then: 'medium', else: 'high')
+                            )}" style="width: {group.defaultPage.score}%;">
+                            </div>
+                        </div>
+                        <span class="score-value">
                             {group.defaultPage.score}
                         </span>
                     </td>
@@ -89,9 +93,13 @@
                             <f:if condition="{page.is_leaf}">⚠️</f:if>
                         </td>
                         <td>
-                            <span class="score score-{f:if(condition: page.score < 40, then: 'low',
-                                else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
-                            )}">
+                            <div class="score-bar">
+                                <div class="score-bar__fill score-{f:if(condition: page.score < 40, then: 'low',
+                                    else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
+                                )}" style="width: {page.score}%;">
+                                </div>
+                            </div>
+                            <span class="score-value">
                                 {page.score}
                             </span>
                         </td>
