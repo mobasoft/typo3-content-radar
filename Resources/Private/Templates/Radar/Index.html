@@ -1,23 +1,23 @@
 <link rel="stylesheet" href="{f:uri.resource(path: 'Css/backend.css', extensionName: 'ContentRadar')}" />
 
 <div class="content-radar">
-    <h1>Content Radar</h1>
+    <h1><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:module.title" /></h1>
 
     <div class="content-radar__actions">
-        <f:link.action action="index">Alle</f:link.action>
-        <f:link.action action="index" arguments="{filter: 'critical'}">Nur kritisch</f:link.action>
-        <f:link.action action="index" arguments="{filter: 'leaf'}">Nur verwaiste Seiten</f:link.action>
-        <f:link.action action="index" arguments="{sort: 'age_desc'}">Nach Alter</f:link.action>
+        <f:link.action action="index"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" /></f:link.action>
+        <f:link.action action="index" arguments="{filter: 'critical'}"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.critical" /></f:link.action>
+        <f:link.action action="index" arguments="{filter: 'leaf'}"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.leaf" /></f:link.action>
+        <f:link.action action="index" arguments="{sort: 'age_desc'}"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.ageDesc" /></f:link.action>
     </div>
 
     <table>
         <tr>
-            <th>Seite</th>
-            <th>Alter</th>
-            <th>Links</th>
-            <th>Orphan</th>
-            <th>Score</th>
-            <th>Status</th>
+            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.page" /></th>
+            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.age" /></th>
+            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.links" /></th>
+            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.orphan" /></th>
+            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.score" /></th>
+            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.status" /></th>
         </tr>
 
         <f:for each="{pages}" as="page">

@@ -5,6 +5,39 @@
 			<trans-unit id="mlang_tabs_tab">
 				<source>Content Radar</source>
 			</trans-unit>
+			<trans-unit id="module.title">
+				<source>Content Radar</source>
+			</trans-unit>
+			<trans-unit id="actions.all">
+				<source>Alle</source>
+			</trans-unit>
+			<trans-unit id="actions.critical">
+				<source>Nur kritisch</source>
+			</trans-unit>
+			<trans-unit id="actions.leaf">
+				<source>Nur verwaiste Seiten</source>
+			</trans-unit>
+			<trans-unit id="actions.ageDesc">
+				<source>Nach Alter</source>
+			</trans-unit>
+			<trans-unit id="table.page">
+				<source>Seite</source>
+			</trans-unit>
+			<trans-unit id="table.age">
+				<source>Alter</source>
+			</trans-unit>
+			<trans-unit id="table.links">
+				<source>Links</source>
+			</trans-unit>
+			<trans-unit id="table.orphan">
+				<source>Orphan</source>
+			</trans-unit>
+			<trans-unit id="table.score">
+				<source>Score</source>
+			</trans-unit>
+			<trans-unit id="table.status">
+				<source>Status</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>
