@@ -48,21 +48,21 @@ Content Radar aims to make this visible.
 
 Clone into your TYPO3 project:
 
-``
+```bash
 git clone https://github.com/mobasoft/typo3-content-radar.git packages/content_radar
-``
+```
 
 Add repository to your root composer.json:
 
-``
-json "repositories": [   {     "type": "path",     "url": "packages/*",     "options": {       "symlink": true     }   } ]
-``
+```json
+"repositories": [   {     "type": "path",     "url": "packages/*",     "options": {       "symlink": true     }   } ]
+```
 
 Require the extension:
 
-``
-composer require <your-vendor>/typo3-content-radar:@dev
-``
+```bash
+composer require mobasoft/typo3-content-radar:@dev
+```
 
 Then activate it in the TYPO3 backend.
 
