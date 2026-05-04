@@ -6,6 +6,7 @@
     <div class="content-radar__actions">
         <a href="?">Alle</a>
         <a href="?filter=critical">Nur kritisch</a>
+        <a href="?filter=orphan">Nur verwaiste Seiten</a>
         <a href="?sort=age_desc">Nach Alter</a>
     </div>
 
@@ -13,6 +14,8 @@
         <tr>
             <th>Seite</th>
             <th>Alter</th>
+            <th>Links</th>
+            <th>Orphan</th>
             <th>Status</th>
         </tr>
 
@@ -20,6 +23,12 @@
             <tr>
                 <td>{page.title}</td>
                 <td>{page.age}</td>
+                <td>{page.incoming}</td>
+                <td>
+                    <f:if condition="{page.is_orphan}">
+                        ⚠️
+                    </f:if>
+                </td>
                 <td>
                 <span class="content-radar__status status-{page.status}">
                     {page.status}

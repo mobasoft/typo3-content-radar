@@ -15,7 +15,7 @@ class PageService
         $queryBuilder = $connection->createQueryBuilder();
 
         $result = $queryBuilder
-            ->select('uid', 'title', 'tstamp')
+            ->select('uid', 'pid', 'title', 'tstamp')
             ->from('pages')
             ->where(
                 $queryBuilder->expr()->eq('deleted', 0),
@@ -26,11 +26,18 @@ class PageService
 
         $now = time();
 
+        $incomingCounts = $this->getIncomingCounts($result);
+
         foreach ($result as &$page) {
             $ageDays = (int)(($now - (int)$page['tstamp']) / 86400);
 
             $page['age'] = $ageDays;
             $page['status'] = $this->getStatus($ageDays);
+
+            $incoming = $incomingCounts[$page['uid']] ?? 0;
+
+            $page['incoming'] = $incoming;
+            $page['is_orphan'] = ($incoming === 0);
         }
 
         return $result;
@@ -45,5 +52,22 @@ class PageService
             return 'yellow';
         }
         return 'green';
+    }
+
+    private function getIncomingCounts(array $pages): array
+    {
+        $counts = [];
+
+        foreach ($pages as $page) {
+            $parentId = (int)$page['pid'];
+
+            if (!isset($counts[$parentId])) {
+                $counts[$parentId] = 0;
+            }
+
+            $counts[$parentId]++;
+        }
+
+        return $counts;
     }
 }

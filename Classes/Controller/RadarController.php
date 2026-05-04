@@ -26,6 +26,10 @@ class RadarController extends ActionController
             });
         }
 
+        if ($filter === 'orphan') {
+            $pages = array_filter($pages, fn($p) => $p['is_orphan']);
+        }
+
         // Sortierung
         if ($sort === 'age_desc') {
             usort($pages, fn($a, $b) => $b['age'] <=> $a['age']);
