@@ -26,6 +26,8 @@ Content Radar aims to make this visible.
 
 - Lists all pages from the TYPO3 database
 - Calculates page age (based on last modification)
+- Detects orphan/leaf pages (no child pages)
+- Calculates a content score (0–100) based on age and structure
 - Simple status classification:
     - 🟢 up to date
     - 🟡 aging
@@ -36,9 +38,6 @@ Content Radar aims to make this visible.
 
 ## 🧠 Planned Features
 
-- Detection of orphaned pages (no incoming links)
-- Content scoring system (0–100)
-- Optional analytics integration (e.g. Matomo)
 - Duplicate content hints
 - CLI commands for automation
 
