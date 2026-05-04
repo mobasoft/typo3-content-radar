@@ -106,11 +106,25 @@ class RadarController extends ActionController
                 'age_asc' => ($left['age'] <=> $right['age']) ?: ($left['score'] <=> $right['score']),
                 'incoming_desc' => ($right['incoming'] <=> $left['incoming']) ?: ($right['score'] <=> $left['score']),
                 'incoming_asc' => ($left['incoming'] <=> $right['incoming']) ?: ($left['score'] <=> $right['score']),
+                'status_desc' => ($this->statusRank((string)$right['status']) <=> $this->statusRank((string)$left['status']))
+                    ?: ($right['score'] <=> $left['score']),
+                'status_asc' => ($this->statusRank((string)$left['status']) <=> $this->statusRank((string)$right['status']))
+                    ?: ($left['score'] <=> $right['score']),
                 default => 0,
             };
         });
 
         return $groups;
+    }
+
+    private function statusRank(string $status): int
+    {
+        return match ($status) {
+            'green' => 1,
+            'yellow' => 2,
+            'red' => 3,
+            default => 0,
+        };
     }
 
     private function buildSummary(array $pages): array

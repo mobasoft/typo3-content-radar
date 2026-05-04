@@ -107,8 +107,24 @@
                         ↑
                     </f:if>
                 </th>
-                <th>
-                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.status" />
+                <th class="{f:if(condition: sort == 'status_desc' || sort == 'status_asc', then: 'is-active')}">
+                    <f:if condition="{sort} == 'status_asc'">
+                        <f:then>
+                            <f:variable name="nextStatusSort" value="status_desc" />
+                        </f:then>
+                        <f:else>
+                            <f:variable name="nextStatusSort" value="status_asc" />
+                        </f:else>
+                    </f:if>
+                    <f:link.action action="index" arguments="{sort: nextStatusSort, filter: filter}">
+                        <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.status" />
+                    </f:link.action>
+                    <f:if condition="{sort} == 'status_desc'">
+                        ↓
+                    </f:if>
+                    <f:if condition="{sort} == 'status_asc'">
+                        ↑
+                    </f:if>
                 </th>
             </tr>
         </thead>
@@ -118,7 +134,9 @@
                 <tr class="default-row row-status-{group.defaultPage.status}">
                     <td>
                         <core:icon identifier="{group.defaultPage.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{group.defaultPage.language}" />
-                        {group.defaultPage.title}
+                        <a href="{f:be.uri(route: 'web_layout', parameters: {id: group.defaultPage.uid})}" class="content-radar__page-link">
+                            {group.defaultPage.title}
+                        </a>
                     </td>
                     <td>{group.defaultPage.age}</td>
                     <td>{group.defaultPage.incoming}</td>
@@ -147,7 +165,9 @@
                     <tr class="translation-row row-status-{page.status}">
                         <td class="translation-title">
                             <core:icon identifier="{page.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{page.language}" />
-                            {page.title}
+                            <a href="{f:be.uri(route: 'web_layout', parameters: {id: page.uid})}" class="content-radar__page-link">
+                                {page.title}
+                            </a>
                         </td>
                         <td>{page.age}</td>
                         <td>{page.incoming}</td>
