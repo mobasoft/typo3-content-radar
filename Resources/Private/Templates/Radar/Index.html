@@ -4,6 +4,33 @@
 <div class="content-radar">
     <h1><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:module.title" /></h1>
 
+    <div class="content-radar__summary">
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:summary.totalPages" /></span>
+            <span class="summary-value">{summary.totalPages}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:summary.defaultPages" /></span>
+            <span class="summary-value">{summary.defaultPages}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:summary.translationPages" /></span>
+            <span class="summary-value">{summary.translationPages}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:summary.languages" /></span>
+            <span class="summary-value">{summary.languagesCount}</span>
+        </div>
+        <div class="summary-item summary-item--wide">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:summary.oldestChange" /></span>
+            <span class="summary-value">{summary.oldestPageTitle} ({summary.oldestPageAge}d, {summary.oldestChangeDate})</span>
+        </div>
+        <div class="summary-item summary-item--wide">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:summary.newestChange" /></span>
+            <span class="summary-value">{summary.newestPageTitle} ({summary.newestPageAge}d, {summary.newestChangeDate})</span>
+        </div>
+    </div>
+
     <div class="content-radar__actions">
         <f:link.action action="index">
             <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" />

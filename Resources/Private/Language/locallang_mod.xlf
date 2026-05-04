@@ -14,6 +14,24 @@
 			<trans-unit id="actions.leaf">
 				<source>Nur verwaiste Seiten</source>
 			</trans-unit>
+			<trans-unit id="summary.totalPages">
+				<source>Seiten gesamt</source>
+			</trans-unit>
+			<trans-unit id="summary.defaultPages">
+				<source>Default-Seiten</source>
+			</trans-unit>
+			<trans-unit id="summary.translationPages">
+				<source>Übersetzungen</source>
+			</trans-unit>
+			<trans-unit id="summary.languages">
+				<source>Sprachen</source>
+			</trans-unit>
+			<trans-unit id="summary.oldestChange">
+				<source>Älteste Änderung</source>
+			</trans-unit>
+			<trans-unit id="summary.newestChange">
+				<source>Neueste Änderung</source>
+			</trans-unit>
 
 			<trans-unit id="label.page">
 				<source>Page</source>

@@ -19,9 +19,11 @@ class RadarController extends ActionController
         $sort = $request->hasArgument('sort') ? $request->getArgument('sort') : 'age_desc';
         $filter = $request->hasArgument('filter') ? $request->getArgument('filter') : null;
 
+        $summary = $this->buildSummary($pages);
         $pageGroups = $this->groupByDefaultPage($pages, $sort, $filter);
 
         $this->view->assignMultiple([
+            'summary' => $summary,
             'pageGroups' => $pageGroups,
             'sort' => $sort,
             'filter' => $filter,
@@ -106,5 +108,38 @@ class RadarController extends ActionController
         });
 
         return $groups;
+    }
+
+    private function buildSummary(array $pages): array
+    {
+        $totalPages = count($pages);
+        $defaultPages = count(array_filter($pages, fn($page) => (int)$page['sys_language_uid'] === 0));
+        $translationPages = $totalPages - $defaultPages;
+        $languagesCount = count(array_unique(array_map(fn($page) => (string)$page['language'], $pages)));
+
+        $oldestPage = null;
+        $newestPage = null;
+
+        foreach ($pages as $page) {
+            if ($oldestPage === null || (int)$page['age'] > (int)$oldestPage['age']) {
+                $oldestPage = $page;
+            }
+            if ($newestPage === null || (int)$page['age'] < (int)$newestPage['age']) {
+                $newestPage = $page;
+            }
+        }
+
+        return [
+            'totalPages' => $totalPages,
+            'defaultPages' => $defaultPages,
+            'translationPages' => $translationPages,
+            'languagesCount' => $languagesCount,
+            'oldestPageTitle' => $oldestPage['title'] ?? '',
+            'oldestPageAge' => $oldestPage['age'] ?? 0,
+            'oldestChangeDate' => isset($oldestPage['tstamp']) ? date('Y-m-d', (int)$oldestPage['tstamp']) : '',
+            'newestPageTitle' => $newestPage['title'] ?? '',
+            'newestPageAge' => $newestPage['age'] ?? 0,
+            'newestChangeDate' => isset($newestPage['tstamp']) ? date('Y-m-d', (int)$newestPage['tstamp']) : '',
+        ];
     }
 }

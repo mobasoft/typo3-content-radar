@@ -79,6 +79,37 @@
     margin-bottom: 10px;
 }
 
+.content-radar__summary {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(120px, 1fr));
+    gap: 8px;
+    margin: 12px 0;
+}
+
+.summary-item {
+    background: #f5f7fa;
+    border: 1px solid #d9dee5;
+    border-radius: 6px;
+    padding: 8px 10px;
+}
+
+.summary-item--wide {
+    grid-column: span 2;
+}
+
+.summary-label {
+    display: block;
+    font-size: 11px;
+    color: #526072;
+}
+
+.summary-value {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #1f2937;
+}
+
 .content-radar__actions a {
     margin-right: 10px;
     text-decoration: none;
