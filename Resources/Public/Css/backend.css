@@ -23,6 +23,30 @@
     background: #f0f0f0;
 }
 
+.default-row td {
+    font-weight: 600;
+}
+
+.translation-row td {
+    background: #fafafa;
+}
+
+.content-radar tbody tr.row-status-green > td {
+    background-color: #e9f8ef !important;
+}
+
+.content-radar tbody tr.row-status-yellow > td {
+    background-color: #fff6df !important;
+}
+
+.content-radar tbody tr.row-status-red > td {
+    background-color: #fdeaea !important;
+}
+
+.translation-title {
+    padding-left: 24px !important;
+}
+
 .content-radar th.is-active {
     font-weight: bold;
     text-decoration: underline;

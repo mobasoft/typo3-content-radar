@@ -40,11 +40,13 @@ class PageService
             $page['incoming'] = $incoming;
             $page['is_leaf'] = ($incoming === 0);
 
-            $page['language'] = $this->resolveLanguageLabel(
+            ['title' => $languageTitle, 'flag' => $languageFlag] = $this->resolveLanguageMeta(
                 (int)$page['uid'],
                 (int)$page['sys_language_uid'],
                 (int)$page['l10n_parent']
             );
+            $page['language'] = $languageTitle;
+            $page['language_flag'] = $languageFlag;
 
             $page['score'] = $this->calculateScore(
                 $page['age'],
@@ -99,16 +101,22 @@ class PageService
         return max(0, (int)$score);
     }
 
-    private function resolveLanguageLabel(int $pageId, int $languageId, int $l10nParent): string
+    private function resolveLanguageMeta(int $pageId, int $languageId, int $l10nParent): array
     {
         try {
             $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
             $sitePageId = $l10nParent > 0 ? $l10nParent : $pageId;
             $site = $siteFinder->getSiteByPageId($sitePageId);
             $language = $site->getLanguageById($languageId);
-            return $language->getTitle();
+            return [
+                'title' => $language->getTitle(),
+                'flag' => $language->getFlagIdentifier() ?: 'flags-multiple',
+            ];
         } catch (\Throwable $e) {
-            return 'unknown';
+            return [
+                'title' => 'unknown',
+                'flag' => 'flags-multiple',
+            ];
         }
     }
 }

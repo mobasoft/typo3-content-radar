@@ -19,49 +19,93 @@ class RadarController extends ActionController
         $sort = $request->hasArgument('sort') ? $request->getArgument('sort') : 'language_grouped';
         $filter = $request->hasArgument('filter') ? $request->getArgument('filter') : null;
 
-        // Filter
-        if ($filter === 'critical') {
-            $pages = array_filter($pages, function ($page) {
-                return $page['status'] !== 'green';
-            });
-        }
-
-        if ($filter === 'leaf') {
-            $pages = array_filter($pages, fn($p) => $p['is_leaf']);
-        }
-
-        // Sortierung
-        switch ($sort) {
-            case 'score_desc':
-                usort($pages, fn($a, $b) =>
-                ($b['score'] <=> $a['score'])
-                    ?: ($b['age'] <=> $a['age'])
-                );
-                break;
-            case 'score_asc':
-                usort($pages, fn($a, $b) => $a['score'] <=> $b['score']);
-                break;
-            case 'age_desc':
-                usort($pages, fn($a, $b) =>
-                ($b['age'] <=> $a['age'])
-                    ?: ($b['score'] <=> $a['score'])
-                );
-                break;
-            case 'language_asc':
-            case 'language_grouped':
-                usort($pages, fn($a, $b) =>
-                ($a['sys_language_uid'] <=> $b['sys_language_uid'])
-                    ?: ($b['score'] <=> $a['score'])
-                );
-                break;
-        }
+        $pageGroups = $this->groupByDefaultPage($pages, $sort, $filter);
 
         $this->view->assignMultiple([
-            'pages' => $pages,
+            'pageGroups' => $pageGroups,
             'sort' => $sort,
             'filter' => $filter,
         ]);
 
         return $this->htmlResponse();
+    }
+
+    private function groupByDefaultPage(array $pages, string $sort, ?string $filter): array
+    {
+        $pagesByUid = [];
+        foreach ($pages as $page) {
+            $pagesByUid[(int)$page['uid']] = $page;
+        }
+
+        $groups = [];
+        foreach ($pages as $page) {
+            $pageUid = (int)$page['uid'];
+            $isTranslation = (int)$page['sys_language_uid'] > 0 && (int)$page['l10n_parent'] > 0;
+            $defaultUid = $isTranslation ? (int)$page['l10n_parent'] : $pageUid;
+
+            if (!isset($groups[$defaultUid])) {
+                $defaultPage = $pagesByUid[$defaultUid] ?? $page;
+                $groups[$defaultUid] = [
+                    'defaultPage' => $defaultPage,
+                    'translations' => [],
+                ];
+            }
+
+            if ($isTranslation) {
+                $groups[$defaultUid]['translations'][] = $page;
+            }
+        }
+
+        foreach ($groups as &$group) {
+            usort(
+                $group['translations'],
+                fn($a, $b) => ($a['sys_language_uid'] <=> $b['sys_language_uid']) ?: ($b['score'] <=> $a['score'])
+            );
+        }
+        unset($group);
+
+        $groups = array_values($groups);
+
+        // Filter: keep parent row when any translation matches.
+        if ($filter === 'critical') {
+            $groups = array_values(array_filter($groups, function (array $group): bool {
+                if (($group['defaultPage']['status'] ?? 'green') !== 'green') {
+                    return true;
+                }
+                foreach ($group['translations'] as $translation) {
+                    if (($translation['status'] ?? 'green') !== 'green') {
+                        return true;
+                    }
+                }
+                return false;
+            }));
+        } elseif ($filter === 'leaf') {
+            $groups = array_values(array_filter($groups, function (array $group): bool {
+                if (!empty($group['defaultPage']['is_leaf'])) {
+                    return true;
+                }
+                foreach ($group['translations'] as $translation) {
+                    if (!empty($translation['is_leaf'])) {
+                        return true;
+                    }
+                }
+                return false;
+            }));
+        }
+
+        usort($groups, function (array $a, array $b) use ($sort): int {
+            $left = $a['defaultPage'];
+            $right = $b['defaultPage'];
+
+            return match ($sort) {
+                'score_desc' => ($right['score'] <=> $left['score']) ?: ($right['age'] <=> $left['age']),
+                'score_asc' => ($left['score'] <=> $right['score']) ?: ($left['age'] <=> $right['age']),
+                'age_desc' => ($right['age'] <=> $left['age']) ?: ($right['score'] <=> $left['score']),
+                'language_asc', 'language_grouped' => strcasecmp((string)$left['language'], (string)$right['language']),
+                default => 0,
+            };
+        });
+
+        return $groups;
     }
 }

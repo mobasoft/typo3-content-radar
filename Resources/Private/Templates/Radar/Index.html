@@ -1,3 +1,4 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
 <link rel="stylesheet" href="{f:uri.resource(path: 'Css/backend.css', extensionName: 'ContentRadar')}"/>
 
 <div class="content-radar">
@@ -59,39 +60,56 @@
         </thead>
 
         <tbody>
-            <f:variable name="currentLanguage" value="" />
-
-            <f:for each="{pages}" as="page">
-                <f:if condition="{currentLanguage} != {page.language}">
-                    <tr class="group-header">
-                        <td colspan="7">
-                            {page.language}
-                        </td>
-                    </tr>
-                    <f:variable name="currentLanguage" value="{page.language}" />
-                </f:if>
-
-                <tr>
-                    <td>{page.title}</td>
-                    <td>{page.age}</td>
-                    <td>{page.incoming}</td>
+            <f:for each="{pageGroups}" as="group">
+                <tr class="default-row row-status-{group.defaultPage.status}">
+                    <td>{group.defaultPage.title}</td>
+                    <td>{group.defaultPage.age}</td>
+                    <td>{group.defaultPage.incoming}</td>
                     <td>
-                        <f:if condition="{page.is_leaf}">⚠️</f:if>
+                        <f:if condition="{group.defaultPage.is_leaf}">⚠️</f:if>
                     </td>
                     <td>
-                        <span class="score score-{f:if(condition: page.score < 40, then: 'low',
-                            else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
+                        <span class="score score-{f:if(condition: group.defaultPage.score < 40, then: 'low',
+                            else: f:if(condition: group.defaultPage.score < 70, then: 'medium', else: 'high')
                         )}">
-                            {page.score}
+                            {group.defaultPage.score}
                         </span>
                     </td>
-                    <td>{page.language}</td>
                     <td>
-                        <span class="content-radar__status status-{page.status}">
-                            {page.status}
+                        <core:icon identifier="{group.defaultPage.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{group.defaultPage.language}" />
+                    </td>
+                    <td>
+                        <span class="content-radar__status status-{group.defaultPage.status}">
+                            {group.defaultPage.status}
                         </span>
                     </td>
                 </tr>
+
+                <f:for each="{group.translations}" as="page">
+                    <tr class="translation-row row-status-{page.status}">
+                        <td class="translation-title">{page.title}</td>
+                        <td>{page.age}</td>
+                        <td>{page.incoming}</td>
+                        <td>
+                            <f:if condition="{page.is_leaf}">⚠️</f:if>
+                        </td>
+                        <td>
+                            <span class="score score-{f:if(condition: page.score < 40, then: 'low',
+                                else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
+                            )}">
+                                {page.score}
+                            </span>
+                        </td>
+                        <td>
+                            <core:icon identifier="{page.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{page.language}" />
+                        </td>
+                        <td>
+                            <span class="content-radar__status status-{page.status}">
+                                {page.status}
+                            </span>
+                        </td>
+                    </tr>
+                </f:for>
             </f:for>
         </tbody>
     </table>
