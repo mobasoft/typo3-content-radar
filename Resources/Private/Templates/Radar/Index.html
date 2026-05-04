@@ -44,6 +44,14 @@
                         ↑
                     </f:if>
                 </th>
+                <th class="{f:if(condition: sort == 'language_asc', then: 'is-active')}">
+                    <f:link.action action="index" arguments="{sort: 'language_asc', filter: filter}">
+                        <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.language" />
+                    </f:link.action>
+                    <f:if condition="{sort} == 'language_asc'">
+                        ↑
+                    </f:if>
+                </th>
                 <th>
                     <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.status" />
                 </th>
@@ -51,7 +59,18 @@
         </thead>
 
         <tbody>
+            <f:variable name="currentLanguage" value="" />
+
             <f:for each="{pages}" as="page">
+                <f:if condition="{currentLanguage} != {page.language}">
+                    <tr class="group-header">
+                        <td colspan="7">
+                            {page.language}
+                        </td>
+                    </tr>
+                    <f:variable name="currentLanguage" value="{page.language}" />
+                </f:if>
+
                 <tr>
                     <td>{page.title}</td>
                     <td>{page.age}</td>
@@ -66,6 +85,7 @@
                             {page.score}
                         </span>
                     </td>
+                    <td>{page.language}</td>
                     <td>
                         <span class="status status-{page.status}">
                             {page.status}

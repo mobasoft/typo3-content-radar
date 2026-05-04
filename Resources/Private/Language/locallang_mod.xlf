@@ -64,6 +64,9 @@
 			<trans-unit id="label.status">
 				<source>Status</source>
 			</trans-unit>
+			<trans-unit id="label.language">
+				<source>Language</source>
+			</trans-unit>
 		</body>
 	</file>
 </xliff>

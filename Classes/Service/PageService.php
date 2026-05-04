@@ -3,6 +3,8 @@
 namespace Mobasoft\ContentRadar\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
+use TYPO3\CMS\Core\Site\SiteFinder;
+use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageService
@@ -15,7 +17,7 @@ class PageService
         $queryBuilder = $connection->createQueryBuilder();
 
         $result = $queryBuilder
-            ->select('uid', 'pid', 'title', 'tstamp')
+            ->select('uid', 'pid', 'title', 'tstamp', 'sys_language_uid', 'l10n_parent')
             ->from('pages')
             ->where(
                 $queryBuilder->expr()->eq('deleted', 0),
@@ -38,6 +40,12 @@ class PageService
 
             $page['incoming'] = $incoming;
             $page['is_leaf'] = ($incoming === 0);
+
+            $page['language'] = $this->resolveLanguageLabel(
+                (int)$page['uid'],
+                (int)$page['sys_language_uid'],
+                (int)$page['l10n_parent']
+            );
 
             $page['score'] = $this->calculateScore(
                 $page['age'],
@@ -90,5 +98,26 @@ class PageService
         }
 
         return max(0, (int)$score);
+    }
+
+    private function getLanguageLabel(int $lang): string
+    {
+        return match ($lang) {
+            0 => 'default',
+            default => 'translation'
+        };
+    }
+
+    private function resolveLanguageLabel(int $pageId, int $languageId, int $l10nParent): string
+    {
+        try {
+            $siteFinder = GeneralUtility::makeInstance(SiteFinder::class);
+            $sitePageId = $l10nParent > 0 ? $l10nParent : $pageId;
+            $site = $siteFinder->getSiteByPageId($sitePageId);
+            $language = $site->getLanguageById($languageId);
+            return $language->getTitle();
+        } catch (\Throwable $e) {
+            return 'unknown';
+        }
     }
 }

@@ -18,6 +18,11 @@
     background: #f5f5f5;
 }
 
+.group-header td {
+    font-weight: bold;
+    background: #f0f0f0;
+}
+
 .content-radar th.is-active {
     font-weight: bold;
     text-decoration: underline;
