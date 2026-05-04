@@ -76,7 +76,10 @@
 }
 
 .content-radar__actions {
-    margin-bottom: 10px;
+    margin-bottom: 12px;
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
 }
 
 .content-radar__summary {
@@ -111,8 +114,22 @@
 }
 
 .content-radar__actions a {
-    margin-right: 10px;
+    display: inline-flex;
+    align-items: center;
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #b9c3d0;
+    background: #eef3f9;
+    color: #1f2a37;
+    font-weight: 600;
+    line-height: 1;
     text-decoration: none;
+}
+
+.content-radar__actions a:hover,
+.content-radar__actions a:focus {
+    background: #dfe9f5;
+    border-color: #8fa6c2;
 }
 
 .score {

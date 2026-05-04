@@ -103,6 +103,9 @@ class RadarController extends ActionController
                 'score_desc' => ($right['score'] <=> $left['score']) ?: ($right['age'] <=> $left['age']),
                 'score_asc' => ($left['score'] <=> $right['score']) ?: ($left['age'] <=> $right['age']),
                 'age_desc' => ($right['age'] <=> $left['age']) ?: ($right['score'] <=> $left['score']),
+                'age_asc' => ($left['age'] <=> $right['age']) ?: ($left['score'] <=> $right['score']),
+                'incoming_desc' => ($right['incoming'] <=> $left['incoming']) ?: ($right['score'] <=> $left['score']),
+                'incoming_asc' => ($left['incoming'] <=> $right['incoming']) ?: ($left['score'] <=> $right['score']),
                 default => 0,
             };
         });

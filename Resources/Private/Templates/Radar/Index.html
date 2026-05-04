@@ -47,22 +47,57 @@
                 <th>
                     <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.page" />
                 </th>
-                <th class="{f:if(condition: sort == 'age_desc', then: 'is-active')}">
-                    <f:link.action action="index" arguments="{sort: 'age_desc', filter: filter}">
+                <th class="{f:if(condition: sort == 'age_desc' || sort == 'age_asc', then: 'is-active')}">
+                    <f:if condition="{sort} == 'age_asc'">
+                        <f:then>
+                            <f:variable name="nextAgeSort" value="age_desc" />
+                        </f:then>
+                        <f:else>
+                            <f:variable name="nextAgeSort" value="age_asc" />
+                        </f:else>
+                    </f:if>
+                    <f:link.action action="index" arguments="{sort: nextAgeSort, filter: filter}">
                         <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.age" />
                     </f:link.action>
                     <f:if condition="{sort} == 'age_desc'">
                         ↓
                     </f:if>
+                    <f:if condition="{sort} == 'age_asc'">
+                        ↑
+                    </f:if>
                 </th>
-                <th>
-                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.incoming" />
+                <th class="{f:if(condition: sort == 'incoming_desc' || sort == 'incoming_asc', then: 'is-active')}">
+                    <f:if condition="{sort} == 'incoming_asc'">
+                        <f:then>
+                            <f:variable name="nextIncomingSort" value="incoming_desc" />
+                        </f:then>
+                        <f:else>
+                            <f:variable name="nextIncomingSort" value="incoming_asc" />
+                        </f:else>
+                    </f:if>
+                    <f:link.action action="index" arguments="{sort: nextIncomingSort, filter: filter}">
+                        <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.incoming" />
+                    </f:link.action>
+                    <f:if condition="{sort} == 'incoming_desc'">
+                        ↓
+                    </f:if>
+                    <f:if condition="{sort} == 'incoming_asc'">
+                        ↑
+                    </f:if>
                 </th>
                 <th>
                     <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.leaf" />
                 </th>
                 <th class="{f:if(condition: sort == 'score_desc' || sort == 'score_asc', then: 'is-active')}">
-                    <f:link.action action="index" arguments="{sort: 'score_desc', filter: filter}">
+                    <f:if condition="{sort} == 'score_asc'">
+                        <f:then>
+                            <f:variable name="nextScoreSort" value="score_desc" />
+                        </f:then>
+                        <f:else>
+                            <f:variable name="nextScoreSort" value="score_asc" />
+                        </f:else>
+                    </f:if>
+                    <f:link.action action="index" arguments="{sort: nextScoreSort, filter: filter}">
                         <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.score" />
                     </f:link.action>
                     <f:if condition="{sort} == 'score_desc'">
