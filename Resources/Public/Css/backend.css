@@ -48,3 +48,19 @@
     margin-right: 10px;
     text-decoration: none;
 }
+
+.score {
+    font-weight: bold;
+}
+
+.score-high {
+    color: green;
+}
+
+.score-medium {
+    color: orange;
+}
+
+.score-low {
+    color: red;
+}

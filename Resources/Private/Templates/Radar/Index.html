@@ -16,6 +16,7 @@
             <th>Alter</th>
             <th>Links</th>
             <th>Orphan</th>
+            <th>Score</th>
             <th>Status</th>
         </tr>
 
@@ -30,9 +31,16 @@
                     </f:if>
                 </td>
                 <td>
-                <span class="content-radar__status status-{page.status}">
-                    {page.status}
-                </span>
+                    <span class="score score-{f:if(condition: page.score < 40, then: 'low',
+                        else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
+                    )}">
+                        {page.score}
+                    </span>
+                </td>
+                <td>
+                    <span class="status status-{page.status}">
+                        {page.status}
+                    </span>
                 </td>
             </tr>
         </f:for>

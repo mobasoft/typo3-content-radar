@@ -37,7 +37,12 @@ class PageService
             $incoming = $incomingCounts[$page['uid']] ?? 0;
 
             $page['incoming'] = $incoming;
-            $page['is_orphan'] = ($incoming === 0);
+            $page['is_leaf'] = ($incoming === 0);
+
+            $page['score'] = $this->calculateScore(
+                $page['age'],
+                $page['is_leaf']
+            );
         }
 
         return $result;
@@ -69,5 +74,21 @@ class PageService
         }
 
         return $counts;
+    }
+
+    private function calculateScore(int $age, bool $isLeaf): int
+    {
+        // Basis: Alter
+        $score = 100 - ($age / 365 * 100);
+
+        // Begrenzen
+        $score = max(0, min(100, $score));
+
+        // Leaf-Malus
+        if ($isLeaf) {
+            $score -= 10;
+        }
+
+        return max(0, (int)$score);
     }
 }
