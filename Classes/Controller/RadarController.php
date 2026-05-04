@@ -48,11 +48,6 @@ class RadarController extends ActionController
                 );
                 break;
             case 'language_asc':
-                usort($pages, fn($a, $b) =>
-                ($a['sys_language_uid'] <=> $b['sys_language_uid'])
-                    ?: ($b['score'] <=> $a['score'])
-                );
-                break;
             case 'language_grouped':
                 usort($pages, fn($a, $b) =>
                 ($a['sys_language_uid'] <=> $b['sys_language_uid'])

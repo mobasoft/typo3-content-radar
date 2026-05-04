@@ -4,7 +4,6 @@ namespace Mobasoft\ContentRadar\Service;
 
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Site\SiteFinder;
-use TYPO3\CMS\Core\Context\Context;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageService
@@ -98,14 +97,6 @@ class PageService
         }
 
         return max(0, (int)$score);
-    }
-
-    private function getLanguageLabel(int $lang): string
-    {
-        return match ($lang) {
-            0 => 'default',
-            default => 'translation'
-        };
     }
 
     private function resolveLanguageLabel(int $pageId, int $languageId, int $l10nParent): string

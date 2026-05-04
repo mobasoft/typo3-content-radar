@@ -11,27 +11,8 @@
 			<trans-unit id="actions.all">
 				<source>Alle</source>
 			</trans-unit>
-			<trans-unit id="actions.critical">
-				<source>Nur kritisch</source>
-			</trans-unit>
 			<trans-unit id="actions.leaf">
 				<source>Nur verwaiste Seiten</source>
-			</trans-unit>
-			<trans-unit id="actions.ageDesc">
-				<source>Alter ↓</source>
-			</trans-unit>
-
-			<trans-unit id="table.age">
-				<source>Alter</source>
-			</trans-unit>
-			<trans-unit id="table.links">
-				<source>Links</source>
-			</trans-unit>
-			<trans-unit id="table.score">
-				<source>Score</source>
-			</trans-unit>
-			<trans-unit id="table.status">
-				<source>Status</source>
 			</trans-unit>
 
 			<trans-unit id="label.page">
@@ -46,20 +27,8 @@
 			<trans-unit id="label.score">
 				<source>Score</source>
 			</trans-unit>
-			<trans-unit id="label.score_desc">
-				<source>Score ↓</source>
-			</trans-unit>
-			<trans-unit id="label.score_asc">
-				<source>Score ↑</source>
-			</trans-unit>
 			<trans-unit id="label.age">
 				<source>Age</source>
-			</trans-unit>
-			<trans-unit id="label.filter_leaf">
-				<source>Leaf Pages</source>
-			</trans-unit>
-			<trans-unit id="label.filter_all">
-				<source>All Pages</source>
 			</trans-unit>
 			<trans-unit id="label.status">
 				<source>Status</source>
