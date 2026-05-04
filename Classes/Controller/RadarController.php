@@ -16,7 +16,7 @@ class RadarController extends ActionController
     {
         $pages = $this->pageService->getPagesWithAge();
         $request = $this->request;
-        $sort = $request->hasArgument('sort') ? $request->getArgument('sort') : null;
+        $sort = $request->hasArgument('sort') ? $request->getArgument('sort') : 'score_desc';
         $filter = $request->hasArgument('filter') ? $request->getArgument('filter') : null;
 
         // Filter
@@ -31,8 +31,22 @@ class RadarController extends ActionController
         }
 
         // Sortierung
-        if ($sort === 'age_desc') {
-            usort($pages, fn($a, $b) => $b['age'] <=> $a['age']);
+        switch ($sort) {
+            case 'score_desc':
+                usort($pages, fn($a, $b) =>
+                ($b['score'] <=> $a['score'])
+                    ?: ($b['age'] <=> $a['age'])
+                );
+                break;
+            case 'score_asc':
+                usort($pages, fn($a, $b) => $a['score'] <=> $b['score']);
+                break;
+            case 'age_desc':
+                usort($pages, fn($a, $b) =>
+                ($b['age'] <=> $a['age'])
+                    ?: ($b['score'] <=> $a['score'])
+                );
+                break;
         }
 
         $this->view->assignMultiple([

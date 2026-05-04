@@ -1,48 +1,78 @@
-<link rel="stylesheet" href="{f:uri.resource(path: 'Css/backend.css', extensionName: 'ContentRadar')}" />
+<link rel="stylesheet" href="{f:uri.resource(path: 'Css/backend.css', extensionName: 'ContentRadar')}"/>
 
 <div class="content-radar">
     <h1><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:module.title" /></h1>
 
     <div class="content-radar__actions">
-        <f:link.action action="index"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" /></f:link.action>
-        <f:link.action action="index" arguments="{filter: 'critical'}"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.critical" /></f:link.action>
-        <f:link.action action="index" arguments="{filter: 'leaf'}"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.leaf" /></f:link.action>
-        <f:link.action action="index" arguments="{sort: 'age_desc'}"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.ageDesc" /></f:link.action>
+        <f:link.action action="index">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" />
+        </f:link.action>
+
+        <f:link.action action="index" arguments="{filter: 'leaf'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.leaf" />
+        </f:link.action>
     </div>
 
     <table>
-        <tr>
-            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.page" /></th>
-            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.age" /></th>
-            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.links" /></th>
-            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.orphan" /></th>
-            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.score" /></th>
-            <th><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:table.status" /></th>
-        </tr>
-
-        <f:for each="{pages}" as="page">
+        <thead>
             <tr>
-                <td>{page.title}</td>
-                <td>{page.age}</td>
-                <td>{page.incoming}</td>
-                <td>
-                    <f:if condition="{page.is_orphan}">
-                        ⚠️
+                <th>
+                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.page" />
+                </th>
+                <th class="{f:if(condition: sort == 'age_desc', then: 'is-active')}">
+                    <f:link.action action="index" arguments="{sort: 'age_desc', filter: filter}">
+                        <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.age" />
+                    </f:link.action>
+                    <f:if condition="{sort} == 'age_desc'">
+                        ↓
                     </f:if>
-                </td>
-                <td>
-                    <span class="score score-{f:if(condition: page.score < 40, then: 'low',
-                        else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
-                    )}">
-                        {page.score}
-                    </span>
-                </td>
-                <td>
-                    <span class="status status-{page.status}">
-                        {page.status}
-                    </span>
-                </td>
+                </th>
+                <th>
+                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.incoming" />
+                </th>
+                <th>
+                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.leaf" />
+                </th>
+                <th class="{f:if(condition: sort == 'score_desc' || sort == 'score_asc', then: 'is-active')}">
+                    <f:link.action action="index" arguments="{sort: 'score_desc', filter: filter}">
+                        <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.score" />
+                    </f:link.action>
+                    <f:if condition="{sort} == 'score_desc'">
+                        ↓
+                    </f:if>
+                    <f:if condition="{sort} == 'score_asc'">
+                        ↑
+                    </f:if>
+                </th>
+                <th>
+                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.status" />
+                </th>
             </tr>
-        </f:for>
+        </thead>
+
+        <tbody>
+            <f:for each="{pages}" as="page">
+                <tr>
+                    <td>{page.title}</td>
+                    <td>{page.age}</td>
+                    <td>{page.incoming}</td>
+                    <td>
+                        <f:if condition="{page.is_leaf}">⚠️</f:if>
+                    </td>
+                    <td>
+                        <span class="score score-{f:if(condition: page.score < 40, then: 'low',
+                            else: f:if(condition: page.score < 70, then: 'medium', else: 'high')
+                        )}">
+                            {page.score}
+                        </span>
+                    </td>
+                    <td>
+                        <span class="status status-{page.status}">
+                            {page.status}
+                        </span>
+                    </td>
+                </tr>
+            </f:for>
+        </tbody>
     </table>
 </div>
