@@ -45,14 +45,6 @@
                         ↑
                     </f:if>
                 </th>
-                <th class="{f:if(condition: sort == 'language_asc', then: 'is-active')}">
-                    <f:link.action action="index" arguments="{sort: 'language_asc', filter: filter}">
-                        <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.language" />
-                    </f:link.action>
-                    <f:if condition="{sort} == 'language_asc'">
-                        ↑
-                    </f:if>
-                </th>
                 <th>
                     <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.status" />
                 </th>
@@ -62,7 +54,10 @@
         <tbody>
             <f:for each="{pageGroups}" as="group">
                 <tr class="default-row row-status-{group.defaultPage.status}">
-                    <td>{group.defaultPage.title}</td>
+                    <td>
+                        <core:icon identifier="{group.defaultPage.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{group.defaultPage.language}" />
+                        {group.defaultPage.title}
+                    </td>
                     <td>{group.defaultPage.age}</td>
                     <td>{group.defaultPage.incoming}</td>
                     <td>
@@ -76,9 +71,6 @@
                         </span>
                     </td>
                     <td>
-                        <core:icon identifier="{group.defaultPage.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{group.defaultPage.language}" />
-                    </td>
-                    <td>
                         <span class="content-radar__status status-{group.defaultPage.status}">
                             {group.defaultPage.status}
                         </span>
@@ -87,7 +79,10 @@
 
                 <f:for each="{group.translations}" as="page">
                     <tr class="translation-row row-status-{page.status}">
-                        <td class="translation-title">{page.title}</td>
+                        <td class="translation-title">
+                            <core:icon identifier="{page.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{page.language}" />
+                            {page.title}
+                        </td>
                         <td>{page.age}</td>
                         <td>{page.incoming}</td>
                         <td>
@@ -99,9 +94,6 @@
                             )}">
                                 {page.score}
                             </span>
-                        </td>
-                        <td>
-                            <core:icon identifier="{page.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{page.language}" />
                         </td>
                         <td>
                             <span class="content-radar__status status-{page.status}">

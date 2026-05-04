@@ -16,7 +16,7 @@ class RadarController extends ActionController
     {
         $pages = $this->pageService->getPagesWithAge();
         $request = $this->request;
-        $sort = $request->hasArgument('sort') ? $request->getArgument('sort') : 'language_grouped';
+        $sort = $request->hasArgument('sort') ? $request->getArgument('sort') : 'age_desc';
         $filter = $request->hasArgument('filter') ? $request->getArgument('filter') : null;
 
         $pageGroups = $this->groupByDefaultPage($pages, $sort, $filter);
@@ -101,7 +101,6 @@ class RadarController extends ActionController
                 'score_desc' => ($right['score'] <=> $left['score']) ?: ($right['age'] <=> $left['age']),
                 'score_asc' => ($left['score'] <=> $right['score']) ?: ($left['age'] <=> $right['age']),
                 'age_desc' => ($right['age'] <=> $left['age']) ?: ($right['score'] <=> $left['score']),
-                'language_asc', 'language_grouped' => strcasecmp((string)$left['language'], (string)$right['language']),
                 default => 0,
             };
         });
