@@ -26,8 +26,8 @@ class RadarController extends ActionController
             });
         }
 
-        if ($filter === 'orphan') {
-            $pages = array_filter($pages, fn($p) => $p['is_orphan']);
+        if ($filter === 'leaf') {
+            $pages = array_filter($pages, fn($p) => $p['is_leaf']);
         }
 
         // Sortierung
