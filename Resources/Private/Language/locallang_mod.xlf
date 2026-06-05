@@ -20,6 +20,33 @@
 			<trans-unit id="actions.export">
 				<source>CSV exportieren</source>
 			</trans-unit>
+			<trans-unit id="filters.all">
+				<source>Alle</source>
+			</trans-unit>
+			<trans-unit id="filters.critical">
+				<source>Kritisch</source>
+			</trans-unit>
+			<trans-unit id="filters.leaf">
+				<source>Nur Leaf</source>
+			</trans-unit>
+			<trans-unit id="filters.statusGreen">
+				<source>Status: grün</source>
+			</trans-unit>
+			<trans-unit id="filters.statusYellow">
+				<source>Status: gelb</source>
+			</trans-unit>
+			<trans-unit id="filters.statusRed">
+				<source>Status: rot</source>
+			</trans-unit>
+			<trans-unit id="filters.scoreHigh">
+				<source>Score: hoch</source>
+			</trans-unit>
+			<trans-unit id="filters.scoreMedium">
+				<source>Score: mittel</source>
+			</trans-unit>
+			<trans-unit id="filters.scoreLow">
+				<source>Score: niedrig</source>
+			</trans-unit>
 			<trans-unit id="summary.totalPages">
 				<source>Seiten gesamt</source>
 			</trans-unit>

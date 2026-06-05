@@ -33,19 +33,40 @@
 
     <div class="content-radar__actions">
         <f:link.action action="index">
-            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" />
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.all" />
         </f:link.action>
 
         <f:link.action action="index" arguments="{filter: 'critical'}">
-            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.critical" />
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.critical" />
         </f:link.action>
 
         <f:link.action action="index" arguments="{filter: 'leaf'}">
-            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.leaf" />
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.leaf" />
         </f:link.action>
 
         <f:link.action action="export">
             <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.export" />
+        </f:link.action>
+    </div>
+
+    <div class="content-radar__actions">
+        <f:link.action action="index" arguments="{filter: 'status_green'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.statusGreen" />
+        </f:link.action>
+        <f:link.action action="index" arguments="{filter: 'status_yellow'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.statusYellow" />
+        </f:link.action>
+        <f:link.action action="index" arguments="{filter: 'status_red'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.statusRed" />
+        </f:link.action>
+        <f:link.action action="index" arguments="{filter: 'score_high'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.scoreHigh" />
+        </f:link.action>
+        <f:link.action action="index" arguments="{filter: 'score_medium'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.scoreMedium" />
+        </f:link.action>
+        <f:link.action action="index" arguments="{filter: 'score_low'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:filters.scoreLow" />
         </f:link.action>
     </div>
 

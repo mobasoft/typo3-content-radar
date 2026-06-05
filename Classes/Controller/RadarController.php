@@ -101,32 +101,7 @@ class RadarController extends ActionController
 
         $groups = array_values($groups);
 
-        // Filter: keep parent row when any translation matches.
-        if ($filter === 'critical') {
-            $groups = array_values(array_filter($groups, function (array $group): bool {
-                if (($group['defaultPage']['status'] ?? 'green') !== 'green') {
-                    return true;
-                }
-                foreach ($group['translations'] as $translation) {
-                    if (($translation['status'] ?? 'green') !== 'green') {
-                        return true;
-                    }
-                }
-                return false;
-            }));
-        } elseif ($filter === 'leaf') {
-            $groups = array_values(array_filter($groups, function (array $group): bool {
-                if (!empty($group['defaultPage']['is_leaf'])) {
-                    return true;
-                }
-                foreach ($group['translations'] as $translation) {
-                    if (!empty($translation['is_leaf'])) {
-                        return true;
-                    }
-                }
-                return false;
-            }));
-        }
+        $groups = $this->applyFilter($groups, $filter);
 
         usort($groups, function (array $a, array $b) use ($sort): int {
             $left = $a['defaultPage'];
@@ -191,5 +166,37 @@ class RadarController extends ActionController
             'newestPageAge' => $newestPage['age'] ?? 0,
             'newestChangeDate' => isset($newestPage['tstamp']) ? date('Y-m-d', (int)$newestPage['tstamp']) : '',
         ];
+    }
+
+    private function applyFilter(array $groups, ?string $filter): array
+    {
+        if ($filter === null || $filter === '' || $filter === 'all') {
+            return $groups;
+        }
+
+        return array_values(array_filter($groups, function (array $group) use ($filter): bool {
+            $pages = array_merge([$group['defaultPage']], $group['translations']);
+            foreach ($pages as $page) {
+                if ($this->matchesFilter($page, $filter)) {
+                    return true;
+                }
+            }
+            return false;
+        }));
+    }
+
+    private function matchesFilter(array $page, string $filter): bool
+    {
+        return match ($filter) {
+            'critical' => ($page['status'] ?? 'green') !== 'green',
+            'leaf' => !empty($page['is_leaf']),
+            'status_green' => ($page['status'] ?? '') === 'green',
+            'status_yellow' => ($page['status'] ?? '') === 'yellow',
+            'status_red' => ($page['status'] ?? '') === 'red',
+            'score_high' => (int)($page['score'] ?? 0) >= 70,
+            'score_medium' => (int)($page['score'] ?? 0) >= 40 && (int)($page['score'] ?? 0) < 70,
+            'score_low' => (int)($page['score'] ?? 0) < 40,
+            default => false,
+        };
     }
 }
