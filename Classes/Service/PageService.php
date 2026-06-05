@@ -33,6 +33,7 @@ class PageService
         $settings = $this->getSettings();
 
         $incomingCounts = $this->getIncomingCounts($result);
+        $duplicateGroups = $this->buildDuplicateGroups($result);
 
         foreach ($result as &$page) {
             $ageDays = (int)(($now - (int)$page['tstamp']) / 86400);
@@ -58,6 +59,14 @@ class PageService
                 $page['is_leaf']
             );
             $page['score_breakdown'] = $this->buildScoreBreakdown($page['age'], $page['is_leaf'], $settings);
+            $duplicateKey = $this->buildDuplicateKey((string)($page['title'] ?? ''), (int)$page['sys_language_uid']);
+            $page['duplicate_key'] = $duplicateKey;
+            $page['duplicate_count'] = isset($duplicateGroups[$duplicateKey]) ? count($duplicateGroups[$duplicateKey]) : 0;
+            $page['duplicate_matches'] = array_values(array_filter(
+                $duplicateGroups[$duplicateKey] ?? [],
+                fn(array $candidate): bool => (int)$candidate['uid'] !== (int)$page['uid']
+            ));
+            $page['has_duplicates'] = $page['duplicate_count'] > 1;
         }
 
         return $result;
@@ -139,6 +148,29 @@ class PageService
         ];
     }
 
+    public function findSimilarPages(array $page, array $pages, int $limit = 5): array
+    {
+        $currentKey = $this->buildDuplicateKey((string)($page['title'] ?? ''), (int)($page['sys_language_uid'] ?? 0));
+        $matches = [];
+
+        foreach ($pages as $candidate) {
+            if ((int)($candidate['uid'] ?? 0) === (int)($page['uid'] ?? 0)) {
+                continue;
+            }
+
+            $candidateKey = $this->buildDuplicateKey((string)($candidate['title'] ?? ''), (int)($candidate['sys_language_uid'] ?? 0));
+            if ($candidateKey !== $currentKey) {
+                continue;
+            }
+
+            $matches[] = $candidate;
+        }
+
+        usort($matches, fn(array $left, array $right): int => ($right['score'] ?? 0) <=> ($left['score'] ?? 0));
+
+        return array_slice($matches, 0, $limit);
+    }
+
     private function getIncomingCounts(array $pages): array
     {
         $counts = [];
@@ -209,5 +241,33 @@ class PageService
         fclose($handle);
 
         return $csv;
+    }
+
+    private function buildDuplicateGroups(array $pages): array
+    {
+        $groups = [];
+
+        foreach ($pages as $page) {
+            $key = $this->buildDuplicateKey((string)($page['title'] ?? ''), (int)($page['sys_language_uid'] ?? 0));
+            if ($key === '') {
+                continue;
+            }
+
+            if (!isset($groups[$key])) {
+                $groups[$key] = [];
+            }
+
+            $groups[$key][] = $page;
+        }
+
+        return array_filter($groups, static fn(array $group): bool => count($group) > 1);
+    }
+
+    private function buildDuplicateKey(string $title, int $languageId): string
+    {
+        $normalizedTitle = strtolower(trim(preg_replace('/\s+/u', ' ', $title) ?? ''));
+        $normalizedTitle = preg_replace('/[^\p{L}\p{N} ]/u', '', $normalizedTitle) ?? '';
+
+        return $normalizedTitle !== '' ? $languageId . ':' . $normalizedTitle : '';
     }
 }
