@@ -64,6 +64,29 @@
         </div>
     </div>
 
+    <div class="content-radar__detail-grid">
+        <div class="summary-item">
+            <span class="summary-label">Base score</span>
+            <span class="summary-value">{page.score_breakdown.baseScore}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Age penalty</span>
+            <span class="summary-value">-{page.score_breakdown.agePenalty}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Leaf penalty</span>
+            <span class="summary-value">-{page.score_breakdown.leafPenalty}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Score result</span>
+            <span class="summary-value">{page.score_breakdown.score}</span>
+        </div>
+        <div class="summary-item summary-item--wide">
+            <span class="summary-label">Assessment</span>
+            <span class="summary-value">{page.score_breakdown.messages.age} / {page.score_breakdown.messages.leaf}</span>
+        </div>
+    </div>
+
     <div class="content-radar__actions">
         <a href="{f:be.uri(route: 'web_layout', parameters: {id: page.uid})}">Open page in backend</a>
     </div>

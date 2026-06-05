@@ -1,0 +1,4 @@
+# cat=basic; type=int+; label=Yellow threshold in days
+yellowThreshold = 180
+# cat=basic; type=int+; label=Red threshold in days
+redThreshold = 365

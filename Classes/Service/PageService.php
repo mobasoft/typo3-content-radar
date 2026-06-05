@@ -57,6 +57,7 @@ class PageService
                 $page['age'],
                 $page['is_leaf']
             );
+            $page['score_breakdown'] = $this->buildScoreBreakdown($page['age'], $page['is_leaf'], $settings);
         }
 
         return $result;
@@ -106,6 +107,38 @@ class PageService
         return 'green';
     }
 
+    public function buildScoreBreakdown(int $age, bool $isLeaf, ?array $settings = null): array
+    {
+        $settings = $settings ?? $this->getSettings();
+        $yellowThreshold = (int)$settings['yellowThreshold'];
+        $redThreshold = (int)$settings['redThreshold'];
+
+        $ageRatio = min(1, max(0, $age / max(1, $redThreshold)));
+        $agePenalty = (int)round($ageRatio * 100);
+        $leafPenalty = $isLeaf ? 10 : 0;
+
+        $baseScore = 100;
+        $score = max(0, $baseScore - $agePenalty - $leafPenalty);
+
+        return [
+            'baseScore' => $baseScore,
+            'agePenalty' => $agePenalty,
+            'leafPenalty' => $leafPenalty,
+            'score' => $score,
+            'status' => $this->getStatus($age, $settings),
+            'thresholds' => [
+                'yellow' => $yellowThreshold,
+                'red' => $redThreshold,
+            ],
+            'messages' => [
+                'age' => $age > $redThreshold
+                    ? 'Age exceeds red threshold'
+                    : ($age > $yellowThreshold ? 'Age exceeds yellow threshold' : 'Age is within the healthy range'),
+                'leaf' => $isLeaf ? 'Page has no child pages' : 'Page has child pages',
+            ],
+        ];
+    }
+
     private function getIncomingCounts(array $pages): array
     {
         $counts = [];
@@ -125,18 +158,8 @@ class PageService
 
     private function calculateScore(int $age, bool $isLeaf): int
     {
-        // Basis: Alter
-        $score = 100 - ($age / 365 * 100);
-
-        // Begrenzen
-        $score = max(0, min(100, $score));
-
-        // Leaf-Malus
-        if ($isLeaf) {
-            $score -= 10;
-        }
-
-        return max(0, (int)$score);
+        $breakdown = $this->buildScoreBreakdown($age, $isLeaf);
+        return (int)$breakdown['score'];
     }
 
     private function resolveLanguageMeta(int $pageId, int $languageId, int $l10nParent): array
