@@ -14,6 +14,12 @@
 			<trans-unit id="actions.leaf">
 				<source>Nur verwaiste Seiten</source>
 			</trans-unit>
+			<trans-unit id="actions.critical">
+				<source>Nur kritische Seiten</source>
+			</trans-unit>
+			<trans-unit id="actions.export">
+				<source>CSV exportieren</source>
+			</trans-unit>
 			<trans-unit id="summary.totalPages">
 				<source>Seiten gesamt</source>
 			</trans-unit>
@@ -50,6 +56,18 @@
 			</trans-unit>
 			<trans-unit id="label.status">
 				<source>Status</source>
+			</trans-unit>
+			<trans-unit id="label.details">
+				<source>Details</source>
+			</trans-unit>
+			<trans-unit id="label.language">
+				<source>Language</source>
+			</trans-unit>
+			<trans-unit id="label.config">
+				<source>Configuration</source>
+			</trans-unit>
+			<trans-unit id="label.thresholds">
+				<source>Thresholds</source>
 			</trans-unit>
 		</body>
 	</file>

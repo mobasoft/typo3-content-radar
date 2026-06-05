@@ -1,0 +1,70 @@
+{namespace core=TYPO3\CMS\Core\ViewHelpers}
+<link rel="stylesheet" href="{f:uri.resource(path: 'Css/backend.css', extensionName: 'ContentRadar')}"/>
+
+<div class="content-radar">
+    <h1><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.details" /></h1>
+
+    <div class="content-radar__actions">
+        <f:link.action action="index">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" />
+        </f:link.action>
+    </div>
+
+    <div class="content-radar__detail">
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.page" /></span>
+            <span class="summary-value">{page.title}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.language" /></span>
+            <span class="summary-value">
+                <core:icon identifier="{page.language_flag}" size="small" alternativeMarkupIdentifier="inline" title="{page.language}" />
+                {page.language}
+            </span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.age" /></span>
+            <span class="summary-value">{page.age} Tage</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.incoming" /></span>
+            <span class="summary-value">{page.incoming}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.score" /></span>
+            <span class="summary-value">{page.score}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label"><f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.status" /></span>
+            <span class="summary-value"><span class="content-radar__status status-{page.status}">{page.status}</span></span>
+        </div>
+    </div>
+
+    <div class="content-radar__detail-grid">
+        <div class="summary-item">
+            <span class="summary-label">UID</span>
+            <span class="summary-value">{page.uid}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Tstamp</span>
+            <span class="summary-value">{page.tstamp}</span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Leaf</span>
+            <span class="summary-value">
+                <f:if condition="{page.is_leaf}">
+                    <f:then>Yes</f:then>
+                    <f:else>No</f:else>
+                </f:if>
+            </span>
+        </div>
+        <div class="summary-item">
+            <span class="summary-label">Thresholds</span>
+            <span class="summary-value">yellow > {settings.yellowThreshold}, red > {settings.redThreshold}</span>
+        </div>
+    </div>
+
+    <div class="content-radar__actions">
+        <a href="{f:be.uri(route: 'web_layout', parameters: {id: page.uid})}">Open page in backend</a>
+    </div>
+</div>

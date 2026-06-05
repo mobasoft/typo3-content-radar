@@ -2,12 +2,16 @@
 
 namespace Mobasoft\ContentRadar\Service;
 
+use TYPO3\CMS\Core\Configuration\ExtensionConfiguration;
 use TYPO3\CMS\Core\Database\ConnectionPool;
 use TYPO3\CMS\Core\Site\SiteFinder;
 use TYPO3\CMS\Core\Utility\GeneralUtility;
 
 class PageService
 {
+    private const DEFAULT_YELLOW_THRESHOLD = 180;
+    private const DEFAULT_RED_THRESHOLD = 365;
+
     public function getPagesWithAge(): array
     {
         $connection = GeneralUtility::makeInstance(ConnectionPool::class)
@@ -26,6 +30,7 @@ class PageService
             ->fetchAllAssociative();
 
         $now = time();
+        $settings = $this->getSettings();
 
         $incomingCounts = $this->getIncomingCounts($result);
 
@@ -33,7 +38,7 @@ class PageService
             $ageDays = (int)(($now - (int)$page['tstamp']) / 86400);
 
             $page['age'] = $ageDays;
-            $page['status'] = $this->getStatus($ageDays);
+            $page['status'] = $this->getStatus($ageDays, $settings);
 
             $incoming = $incomingCounts[$page['uid']] ?? 0;
 
@@ -57,12 +62,45 @@ class PageService
         return $result;
     }
 
-    private function getStatus(int $age): string
+    public function getPageByUid(int $pageUid): ?array
     {
-        if ($age > 365) {
+        foreach ($this->getPagesWithAge() as $page) {
+            if ((int)$page['uid'] === $pageUid) {
+                return $page;
+            }
+        }
+
+        return null;
+    }
+
+    public function getSettings(): array
+    {
+        $defaults = [
+            'yellowThreshold' => self::DEFAULT_YELLOW_THRESHOLD,
+            'redThreshold' => self::DEFAULT_RED_THRESHOLD,
+        ];
+
+        try {
+            $extensionConfiguration = GeneralUtility::makeInstance(ExtensionConfiguration::class);
+            $configuration = $extensionConfiguration->get('content_radar');
+
+            return [
+                'yellowThreshold' => max(1, (int)($configuration['yellowThreshold'] ?? $defaults['yellowThreshold'])),
+                'redThreshold' => max(1, (int)($configuration['redThreshold'] ?? $defaults['redThreshold'])),
+            ];
+        } catch (\Throwable) {
+            return $defaults;
+        }
+    }
+
+    public function getStatus(int $age, ?array $settings = null): string
+    {
+        $settings = $settings ?? $this->getSettings();
+
+        if ($age > (int)$settings['redThreshold']) {
             return 'red';
         }
-        if ($age > 180) {
+        if ($age > (int)$settings['yellowThreshold']) {
             return 'yellow';
         }
         return 'green';
@@ -118,5 +156,35 @@ class PageService
                 'flag' => 'flags-multiple',
             ];
         }
+    }
+
+    public function toCsv(array $pages): string
+    {
+        $handle = fopen('php://temp', 'r+');
+        if ($handle === false) {
+            return '';
+        }
+
+        fputcsv($handle, ['uid', 'title', 'language', 'age', 'incoming', 'is_leaf', 'score', 'status', 'tstamp']);
+
+        foreach ($pages as $page) {
+            fputcsv($handle, [
+                $page['uid'] ?? '',
+                $page['title'] ?? '',
+                $page['language'] ?? '',
+                $page['age'] ?? '',
+                $page['incoming'] ?? '',
+                !empty($page['is_leaf']) ? '1' : '0',
+                $page['score'] ?? '',
+                $page['status'] ?? '',
+                $page['tstamp'] ?? '',
+            ]);
+        }
+
+        rewind($handle);
+        $csv = stream_get_contents($handle) ?: '';
+        fclose($handle);
+
+        return $csv;
     }
 }

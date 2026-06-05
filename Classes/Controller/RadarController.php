@@ -4,12 +4,15 @@ namespace Mobasoft\ContentRadar\Controller;
 
 use TYPO3\CMS\Extbase\Mvc\Controller\ActionController;
 use Psr\Http\Message\ResponseInterface;
+use Psr\Http\Message\ResponseFactoryInterface;
+use TYPO3\CMS\Core\Type\ContextualFeedbackSeverity;
 use Mobasoft\ContentRadar\Service\PageService;
 
 class RadarController extends ActionController
 {
     public function __construct(
-        protected PageService $pageService
+        protected PageService $pageService,
+        protected ResponseFactoryInterface $responseFactory
     ) {}
 
     public function indexAction(): ResponseInterface
@@ -30,6 +33,36 @@ class RadarController extends ActionController
         ]);
 
         return $this->htmlResponse();
+    }
+
+    public function detailAction(int $pageUid): ResponseInterface
+    {
+        $page = $this->pageService->getPageByUid($pageUid);
+        if ($page === null) {
+            $this->addFlashMessage('Page not found.', '', ContextualFeedbackSeverity::ERROR);
+            return $this->redirect('index');
+        }
+
+        $this->view->assignMultiple([
+            'page' => $page,
+            'settings' => $this->pageService->getSettings(),
+        ]);
+
+        return $this->htmlResponse();
+    }
+
+    public function exportAction(): ResponseInterface
+    {
+        $pages = $this->pageService->getPagesWithAge();
+        $csv = $this->pageService->toCsv($pages);
+
+        $response = $this->responseFactory->createResponse()
+            ->withHeader('Content-Type', 'text/csv; charset=utf-8')
+            ->withHeader('Content-Disposition', 'attachment; filename="content-radar.csv"');
+
+        $response->getBody()->write($csv);
+
+        return $response;
     }
 
     private function groupByDefaultPage(array $pages, string $sort, ?string $filter): array

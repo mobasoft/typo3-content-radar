@@ -12,6 +12,8 @@ return [
         'controllerActions' => [
             \Mobasoft\ContentRadar\Controller\RadarController::class => [
                 'index',
+                'detail',
+                'export',
             ],
         ],
     ],

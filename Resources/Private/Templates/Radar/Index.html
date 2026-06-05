@@ -36,8 +36,16 @@
             <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.all" />
         </f:link.action>
 
+        <f:link.action action="index" arguments="{filter: 'critical'}">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.critical" />
+        </f:link.action>
+
         <f:link.action action="index" arguments="{filter: 'leaf'}">
             <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.leaf" />
+        </f:link.action>
+
+        <f:link.action action="export">
+            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:actions.export" />
         </f:link.action>
     </div>
 
@@ -46,6 +54,9 @@
             <tr>
                 <th>
                     <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.page" />
+                </th>
+                <th>
+                    <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.details" />
                 </th>
                 <th class="{f:if(condition: sort == 'age_desc' || sort == 'age_asc', then: 'is-active')}">
                     <f:if condition="{sort} == 'age_asc'">
@@ -138,6 +149,11 @@
                             {group.defaultPage.title}
                         </a>
                     </td>
+                    <td>
+                        <f:link.action action="detail" arguments="{pageUid: group.defaultPage.uid}">
+                            <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.details" />
+                        </f:link.action>
+                    </td>
                     <td>{group.defaultPage.age}</td>
                     <td>{group.defaultPage.incoming}</td>
                     <td>
@@ -168,6 +184,11 @@
                             <a href="{f:be.uri(route: 'web_layout', parameters: {id: page.uid})}" class="content-radar__page-link">
                                 {page.title}
                             </a>
+                        </td>
+                        <td>
+                            <f:link.action action="detail" arguments="{pageUid: page.uid}">
+                                <f:translate key="LLL:EXT:content_radar/Resources/Private/Language/locallang_mod.xlf:label.details" />
+                            </f:link.action>
                         </td>
                         <td>{page.age}</td>
                         <td>{page.incoming}</td>

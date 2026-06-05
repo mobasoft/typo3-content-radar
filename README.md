@@ -33,6 +33,9 @@ Content Radar aims to make this visible.
     - 🟡 aging
     - 🔴 outdated
 - Basic filtering and sorting
+- Detail view per page
+- CSV export for the current dataset
+- Configurable status thresholds via extension configuration
 
 ---
 
@@ -40,6 +43,7 @@ Content Radar aims to make this visible.
 
 - Duplicate content hints
 - CLI commands for automation
+- Better duplicate scoring and explanations
 
 ---
 
@@ -71,6 +75,17 @@ Then activate it in the TYPO3 backend.
 
 - TYPO3 v13
 - Composer-based installation
+
+---
+
+## ⚙️ Configuration
+
+You can override the age thresholds via TYPO3 extension configuration:
+
+- `yellowThreshold`: days after which a page becomes yellow
+- `redThreshold`: days after which a page becomes red
+
+Defaults are `180` and `365` days.
 
 ---
 
